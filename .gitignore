@@ -1,0 +1,27 @@
+# Visual Studio
+.vs/
+*.vcxproj.user
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Build folders
+bin/
+obj/
+Debug/
+Release/
+x64/
+x86/
+
+# VS Code settings (optional)
+.vscode/
+
+# Other
+*.log
+*.tlog/
+*.idb
+*.pdb
+*.ipdb
+*.iobj
+*.DS_Store
