@@ -47,7 +47,7 @@ namespace uSTL {
 			return arr;
 		}
 
-		v 
+		
 	private:
 		T arr[N];
 	};

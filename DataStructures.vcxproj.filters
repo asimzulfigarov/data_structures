@@ -37,6 +37,12 @@
     <Filter Include="Arquivos de Recurso\STL">
       <UniqueIdentifier>{e3f34632-52d3-4849-91cd-97eda789f0a8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Cherno">
+      <UniqueIdentifier>{9ab15007-f52d-4c32-85f6-5e5391ca6b91}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Arquivos de Recurso\STA">
+      <UniqueIdentifier>{fadb1e31-9fd7-4265-a2be-bb279f4416f8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stack_vector.h">
@@ -142,6 +148,9 @@
   <ItemGroup>
     <ClCompile Include="main.cpp">
       <Filter>Arquivos de Recurso</Filter>
+    </ClCompile>
+    <ClCompile Include="vector.h">
+      <Filter>Arquivos de Recurso\STA</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

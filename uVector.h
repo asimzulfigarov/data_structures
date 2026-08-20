@@ -6,7 +6,7 @@ namespace uSTL {
 	public:
 		vector() : data(nullptr), sz(0), cap(0) {}
 		~vector() { delete[] data; }
-		push_back(const T& value) {
+		void push_back(const T& value) {
 			if (sz == cap) {
 				size_t new_cap = cap == 0 ? 4 : cap * 2;
 				T* new_data = new T[new_cap];
@@ -18,7 +18,7 @@ namespace uSTL {
 			data[sz++] = value;
 		}
 		T& operator[](const size_t& idx) {
-			returnr
+			return;
 		}
 	private:
 		T* data;

@@ -1,15 +1,22 @@
 #include <iostream>
-#include <array>
-#include "uArray.h"
-#include <vector>
-#include "uVector.h"
+
+#include "vector.h"
+
+
+
 
 int main() {
-	uSTL::vector<int> vec;
-
-	vec.push_back(2);
-
 	
+	sta::vector<int> vec{ 1, 2, 3 };
+	
+	vec.ReturnData();
+	
+	std::cout << vec[0] << std::endl;
+
+	sta::vector<int> vec1;
+
+	vec1 = vec;
+	vec1.ReturnData();
 
 
 	std::cin.get();
