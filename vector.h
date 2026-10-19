@@ -28,8 +28,13 @@ public:
 	{
 		if (*this == rhs)
 			return *this;
+		m_Size = rhs.m_Size;
+		m_Capacity = rhs.m_Capacity;  //edge case - lhs has less capacity than right hand side
+		
+		if(!m_Data)
+			m_Data = new T[m_Capacity];
 
-		for (size_t i = 0; i < m_Capacity; i++) // should be size
+		for (size_t i = 0; i < m_Size; i++) // should be size
 		{
 			m_Data[i] = rhs.m_Data[i];
 		}
@@ -48,7 +53,7 @@ public:
 
 	void ReturnData() const
 	{
-		for (size_t i = 0; i < m_Capacity; i++) // should be size 
+		for (size_t i = 0; i < m_Size; i++) // should be size 
 		{
 			std::cout << m_Data[i] << std::endl;
 		}
@@ -57,17 +62,37 @@ public:
 private:
 	void PopulateVector(std::initializer_list<T>& data)
 	{
-		for (size_t i = 0; i < m_Capacity; i++) // should be size 
+		auto it = data.begin();
+		size_t i{ 0 };
+		
+		
+		while (it != data.end())
 		{
-			m_Data[i] = *(data.begin() + i);
+			if (m_Size == m_Capacity)
+				Resize();
+			m_Data[i] = (*it);
+			it += 1;
+			i++;
 			m_Size++;
 		}
+	}
+
+	void Resize()
+	{
+		T* NewData = new T[m_Capacity * 2];
+
+		for (size_t i = 0; i < m_Size; i++)
+		{
+			NewData[i] = m_Data[i];
+		}
+		delete[] m_Data;
+		m_Data = NewData;
 	}
 
 private:
 	size_t m_Capacity{ 3 };
 	size_t m_Size{ 0 };
-	T* m_Data;
+	T* m_Data{ nullptr };
 };
 
 
