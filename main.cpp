@@ -1,23 +1,17 @@
 #include <iostream>
 
 #include "vector.h"
+#include "string.h"
 
-
+#include <vector>
 
 
 int main() {
 	
 	sta::vector<int> vec{ 1, 2, 3 };
 	
-	vec.ReturnData();
-	
-	std::cout << vec[0] << std::endl;
+	sta::string string{ "asimasa" };
 
-	sta::vector<int> vec1;
-
-	vec1 = vec;
-	vec1.ReturnData();
-
-
+	std::cout << string << std::endl;
 	std::cin.get();
 }

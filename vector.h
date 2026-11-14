@@ -2,6 +2,7 @@
 
 #include <initializer_list>
 #include <iostream>
+#include <stdexcept>
 
 namespace sta{
 
@@ -10,89 +11,199 @@ class vector {
 public:
 	vector(std::initializer_list<T> data)
 	{
-		m_Data = new T[m_Capacity];
-		PopulateVector(data);
+		data_ = new T[capacity_];
+
+		auto it = data.begin();
+		size_t i{ 0 };
+
+
+		while (it != data.end())
+		{
+			if (size_ >= capacity_)
+				Resize();
+			data_[i] = (*it);
+			it += 1;
+			i++;
+			size_++;
+		}
 	}
 
 	vector()
 	{
-		m_Data = new T[m_Capacity];
+		data_ = new T[capacity_];
+	}
+
+	vector(uint32_t size, const T& data = {})
+	{
+		CreateVector(size, data);
 	}
 
 	~vector()
 	{
-		delete[] m_Data;
+		delete[] data_;
 	}
 
 	vector& operator=(const vector& rhs)
 	{
 		if (*this == rhs)
 			return *this;
-		m_Size = rhs.m_Size;
-		m_Capacity = rhs.m_Capacity;  //edge case - lhs has less capacity than right hand side
+		size_ = rhs.size_;
+		capacity_ = rhs.capacity_;  //edge case - lhs has less capacity than right hand side
 		
-		if(!m_Data)
-			m_Data = new T[m_Capacity];
+		if(!data_)
+			data_ = new T[capacity_];
 
-		for (size_t i = 0; i < m_Size; i++) // should be size
+		for (size_t i = 0; i < size_; i++) // should be size
 		{
-			m_Data[i] = rhs.m_Data[i];
+			data_[i] = rhs.data_[i];
 		}
 		return *this;
 	}
 
-	T& operator[](uint32_t idx)
-	{
-		return m_Data[idx];
-	}
-
 	bool operator==(const vector& rhs)
 	{
-		return m_Data == rhs.m_Data;
+		return data_ == rhs.data_;
 	}
 
+	// ELEMENT ACCESS
+
+	T& at(uint32_t idx)
+	{
+		if (idx <= size_ - 1)
+		{
+			return data_[idx];
+		}
+		else
+		{
+			throw std::out_of_range("Index out of range");
+		}
+	}
+
+	T& operator[](uint32_t idx)
+	{
+		return data_[idx];
+	}
+
+	T& front()
+	{
+		if (!empty())
+		{
+			return data_[0];
+		}
+	}
+
+	T& back()
+	{
+		if (!empty())
+		{
+			return data_[size_ - 1];
+		}
+	}
+
+	T* data()
+	{
+		if (!empty())
+		{
+			return data_;
+		}
+	}
+
+	// ITERATORS
+
+	T* begin()
+	{
+		return data_;
+	}
+
+	T* end()
+	{
+		T* ptr = data_;
+		for (int i = 0; i < size_; ++i) {
+			++ptr;
+		}
+		return ptr;
+	}
+
+
+	// CAPACITY
+
+	bool empty()
+	{
+		return data_ == nullptr;
+	}
+
+	size_t size()
+	{
+		return size_;
+	}
+
+	void reserve(size_t new_cap)
+	{
+		if (new_cap > capacity_)
+		{
+			Resize(new_cap);
+		}
+	}
+
+	size_t capacity()
+	{
+		return capacity_;
+	}
+
+	// just my hack
 	void ReturnData() const
 	{
-		for (size_t i = 0; i < m_Size; i++) // should be size 
+		std::cout << "RETURN DATA\n";
+		for (size_t i = 0; i < size_; i++) // should be size 
 		{
-			std::cout << m_Data[i] << std::endl;
+			std::cout << data_[i] << std::endl;
 		}
+		std::cout << "RETURN DATA END\n";
 	}
 
 private:
-	void PopulateVector(std::initializer_list<T>& data)
-	{
-		auto it = data.begin();
-		size_t i{ 0 };
-		
-		
-		while (it != data.end())
-		{
-			if (m_Size == m_Capacity)
-				Resize();
-			m_Data[i] = (*it);
-			it += 1;
-			i++;
-			m_Size++;
-		}
-	}
-
 	void Resize()
 	{
-		T* NewData = new T[m_Capacity * 2];
+		capacity_ = capacity_ * 2;
+		T* NewData = new T[capacity_];
 
-		for (size_t i = 0; i < m_Size; i++)
+		for (size_t i = 0; i < size_; i++)
 		{
-			NewData[i] = m_Data[i];
+			NewData[i] = data_[i];
 		}
-		delete[] m_Data;
-		m_Data = NewData;
+		delete[] data_;
+		data_ = NewData;
+	}
+
+	void Resize(size_t new_cap)
+	{
+		capacity_ = new_cap;
+		T* NewData = new T[capacity_];
+
+		for (size_t i = 0; i < size_; i++)
+		{
+			NewData[i] = data_[i];
+		}
+		delete[] data_;
+		data_ = NewData;
+	}
+
+	T* CreateVector(uint32_t size, const T& data) 
+	{
+		data_ = new T[size];
+		size_ = size;
+		capacity_ = size;
+		for (size_t i = 0; i < size; i++)
+		{
+			data_[i] = data;
+		}
+		return data_;
 	}
 
 private:
-	size_t m_Capacity{ 3 };
-	size_t m_Size{ 0 };
-	T* m_Data{ nullptr };
+	size_t capacity_{ 3 };
+	size_t size_{ 0 };
+	T* data_{ nullptr };
 };
 
 

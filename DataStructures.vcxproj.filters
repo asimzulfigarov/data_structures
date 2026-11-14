@@ -144,6 +144,9 @@
     <ClInclude Include="uVector.h">
       <Filter>Arquivos de Recurso\STL</Filter>
     </ClInclude>
+    <ClInclude Include="string.h">
+      <Filter>Arquivos de Recurso\STA</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
